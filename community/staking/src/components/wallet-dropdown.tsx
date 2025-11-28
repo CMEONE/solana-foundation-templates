@@ -8,6 +8,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import * as React from 'react'
+import { ErrorBoundary } from 'react-error-boundary'
 import { ellipsify, UiWallet, useWalletUi, useWalletUiWallet } from '@wallet-ui/react'
 import { Button } from '@/components/ui/button'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
@@ -62,7 +63,11 @@ function WalletDropdown() {
           </>
         ) : null}
         {wallets.length ? (
-          wallets.map((wallet) => <WalletDropdownItem key={wallet.name} wallet={wallet} />)
+          wallets.map((wallet) => (
+            <ErrorBoundary key={wallet.name} fallback={null}>
+              <WalletDropdownItem wallet={wallet} />
+            </ErrorBoundary>
+          ))
         ) : (
           <DropdownMenuItem className="cursor-pointer" asChild>
             <a href="https://solana.com/solana-wallets" target="_blank" rel="noopener noreferrer">
